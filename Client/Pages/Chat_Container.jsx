@@ -37,7 +37,7 @@ function Chat_Container() {
             }
         }
         socket.emit('sendmsg', { room, roomid, msg, image: base64 });
-        setChats((prev) => [...prev, { msg, image:base64, sender: 'You' }]);
+        setChats((prev) => [...prev, { msg, image: base64, sender: 'You' }]);
         setMsg("");
         setImage(null);
     }
