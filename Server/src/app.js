@@ -44,8 +44,9 @@ io.on('connection', (socket) => {
 
 
     socket.on('sendmsg', ({ room, roomid, msg, image }) => {
-
+        console.log("Recived sent");
         socket.to(room).emit('recivedmsg', { msg, image });
+        console.log("Send sent");
     })
 
     socket.on('disconnect', () => {

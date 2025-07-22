@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io('https://college-project-9t37.onrender.com');
+    const socketInstance = io('http://localhost:8000');
     setSocket(socketInstance);
 
     return () => {

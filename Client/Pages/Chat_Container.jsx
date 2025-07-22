@@ -2,14 +2,14 @@
 import { useParams } from 'react-router-dom';
 import { Chat, ButtonField, InputField } from '../Components'
 import { useSocket } from '../Provider/SocketContext'
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 function Chat_Container() {
     const { room, roomid } = useParams();
     const [msg, setMsg] = useState("");
     const [chats, setChats] = useState([]);
     const [image, setImage] = useState(null);
     const socket = useSocket();
-
+    const chatref = useRef(null);
 
     const handleimage = (file) => {
         return new Promise((resolve, reject) => {
@@ -27,16 +27,26 @@ function Chat_Container() {
             console.log("hello")
             return;
         };
+
         let base64 = "";
+        const maxSize = 200 * 1024; // 100KB in bytes
+
         if (image) {
             try {
-                base64 = await handleimage(image); // wait for base64
+                if (image.size > maxSize) {
+                    alert("Image size exceeds 200KB!");
+                    setImage(null);
+                    return;
+                }
+                base64 = await handleimage(image);
             } catch (error) {
                 console.error("Image processing failed", error);
                 return;
             }
         }
+
         socket.emit('sendmsg', { room, roomid, msg, image: base64 });
+        console.log("Message sent");
         setChats((prev) => [...prev, { msg, image: base64, sender: 'You' }]);
         setMsg("");
         setImage(null);
@@ -47,7 +57,7 @@ function Chat_Container() {
         if (!socket) return;
 
         const handleReceivedMsg = ({ msg, image }) => {
-            console.log("Received message:", msg, image);
+            console.log("Received message");
             setChats((prev) => [...prev, { msg, image, sender: 'Other' }]);
         }
 
@@ -58,12 +68,17 @@ function Chat_Container() {
         };
     }, [socket])
 
+
+    useEffect(() => {
+        chatref.current.scrollTop = chatref.current.scrollHeight;
+    }, [chats])
+
     return (
         <div className='h-screen w-screen flex flex-col   gap-3  bg-black p-4'>
             <span className='w-full flex justify-end '><ButtonField text={"Leave"} /></span>
             <hr className='w-full border border-gray-400' />
             <span className='text-gray-200 text-center'>You Joined the {room} Room </span>
-            <div className='flex-1 overflow-auto gap-2'>
+            <div className='flex-1 overflow-auto gap-2' ref={chatref}>
                 {chats.map((chat, index) => (
                     <Chat key={index} msg={chat.msg} image={chat.image} sender={chat.sender} />
                 ))}
