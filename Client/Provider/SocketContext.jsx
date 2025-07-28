@@ -10,7 +10,7 @@ export const SocketProvider = ({ children }) => {
   const [socket, setSocket] = useState(null);
 
   useEffect(() => {
-    const socketInstance = io('https://college-project-9t37.onrender.com');
+    const socketInstance = io(import.meta.env.VITE_DOMAIN);
     setSocket(socketInstance);
 
     return () => {

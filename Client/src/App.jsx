@@ -14,7 +14,7 @@ function App() {
             <Routes>
               <Route path='/' element={<Home />} />
               <Route path='/action/:type' element={<Create_Join />} />
-              <Route path='/room/:room/:roomid' element={<Chat_Container />} />
+              <Route path='/room/:name/:room/:roomid' element={<Chat_Container />} />
             </Routes>
           </BrowserRouter>
         </SocketProvider>

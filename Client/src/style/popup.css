@@ -1,0 +1,15 @@
+@keyframes pop {
+  0% {
+    opacity: 0;
+    transform: translateY(0px) scale(0.8);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(20px) scale(1);
+  }
+}
+
+.pop-animation {
+  animation: pop 0.4s ease-out forwards;
+  position: relative;
+}
