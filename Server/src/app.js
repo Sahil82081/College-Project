@@ -30,9 +30,6 @@ io.on('connection', (socket) => {
     console.log('New client connected:', socket.id);
 
     socket.on('createroom', async ({ room, roomId, name }) => {
-        // const user = await db.User({ name }).save()
-
-        // All_Users.set(user._id, name);
         roomIds.set(roomId, room);
         onlineUsers.set(socket.id, name)
         roomhadles.set(socket.id, room)
@@ -57,9 +54,6 @@ io.on('connection', (socket) => {
             socket.emit('roomnotfound', { msg: "Room not found" });
             return;
         }
-        const user = await db.User({ name }).save()
-
-        All_Users.set(user._id, name);
         const room = roomIds.get(roomId)
         onlineUsers.set(socket.id, name)
         roomhadles.set(socket.id, room)
