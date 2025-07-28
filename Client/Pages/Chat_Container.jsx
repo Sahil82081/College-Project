@@ -1,6 +1,6 @@
 
 import { useParams, useNavigate } from 'react-router-dom';
-import { Chat, ButtonField, Loader, PopUp, OnlineUsers } from '../Components'
+import { Chat, ButtonField, Loader, Popup, OnlineUsers } from '../Components'
 import { useSocket } from '../Provider/SocketContext'
 import { usestate } from '../Provider/StateContext'
 import { useEffect, useRef, useState } from 'react';
@@ -185,7 +185,7 @@ function Chat_Container() {
                 <ButtonField text={"Send"} func={handleSendMsg} />
             </span>
             {loading ? <Loader /> : ""}
-            {newuser && <PopUp msg={newuser} />}
+            {newuser && <Popup msg={newuser} />}
             {isonline && <OnlineUsers user={connectedUser} func={() => { setIsOnline(false) }} />}
         </div>
     )
